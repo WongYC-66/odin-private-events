@@ -1,8 +1,13 @@
-<h1>Logo, EventBrite clone </h1>
+<h1>
+    <%= link_to "EventBrite clone", root_path %>
+</h1>
 
 <% if user_signed_in? %>
-    <h5>Welcome <%= current_user.username %></h5>
-    <%= link_to "Log out", destroy_user_session_path, data: { turbo_method: :delete } %>
+    <h5>Welcome <%= current_user.username %> 
+        <span><%= link_to "Log out", destroy_user_session_path, data: { turbo_method: :delete } %></span>
+        <span><%= link_to "Create Event", new_event_path %></span>
+    </h5>
+    
 <% else %>
     <%= link_to "Register Account", new_user_registration_path %>
     <%= link_to "Login", new_user_session_path %>

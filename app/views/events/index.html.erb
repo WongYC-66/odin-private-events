@@ -1,7 +1,16 @@
-<h1>All Events</h1>
+<p style="color: green"><%= notice %></p>
 
-<% @events.each do |event| %>
-    <h3><%= event.title %></h3>
-    <p><%= event.description %></p>
-    <p><%= event.date %></p>
-<% end %>
+<% content_for :title, "Events" %>
+
+<h1>Events</h1>
+
+<div id="events">
+  <% @events.each do |event| %>
+    <%= render event %>
+    <p>
+      <%= link_to "Show this event", event %>
+    </p>
+  <% end %>
+</div>
+
+
