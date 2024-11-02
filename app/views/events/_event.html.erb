@@ -1,2 +1,25 @@
-<div id="<%= dom_id event %>">
+<div id="<%= event.id %>">
+  <p><%= link_to event.title, event %> </p>
+  <p><%= event.description %></p>
+
+  <% if user_signed_in? %>
+    <% if canAttend %>
+
+      <% if !@user_joined_events.include?(event.id)  %>
+        <%# haven't joined %>
+        <%= form_with url: "/events/#{event.id}/#{current_user.id}", method: :post do |form| %>
+          <%= form.submit "Attend!" %> 
+        <% end %>
+
+      <% else %>
+        <%# already joined %>
+        <%= form_with url: "/events/#{event.id}/#{current_user.id}", method: :delete do |form| %>
+          <%= form.submit "Quit!" %> 
+        <% end %>
+
+      <% end %>
+    <% end %>
+  <% end %>
+
 </div>
+<br>

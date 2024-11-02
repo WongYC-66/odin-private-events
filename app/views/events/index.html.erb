@@ -2,19 +2,16 @@
 
 <% content_for :title, "Events" %>
 
-<h1>Events</h1>
+<h1>Upcoming Events</h1>
 
-<div id="events">
-  <% @events.each do |event| %>
-    <%#= render event %>
+<% @events.upcoming.each do |event| %>
+  <%= render partial: "event", locals: {event: event, canAttend: true} %>
+<% end %>
 
-    <p><%= event.title %></p>
-    <p><%= event.description %></p>
 
-    <p>
-      <%= link_to "Show this event", event %>
-    </p>
-  <% end %>
-</div>
+<h1>Past Events</h1>
 
+<% @events.past.each do |event| %>
+  <%= render partial: "event", locals: {event: event, canAttend: false} %>
+<% end %>
 

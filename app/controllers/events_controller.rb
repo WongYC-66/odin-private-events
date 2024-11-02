@@ -1,5 +1,8 @@
 class EventsController < ApplicationController
+  before_action :authenticate_user!, except: [ :index ]
   before_action :set_event, only: %i[ show edit update destroy ]
+  before_action :set_user_attended
+
 
   # GET /events or /events.json
   def index
@@ -8,7 +11,7 @@ class EventsController < ApplicationController
 
   # GET /events/1 or /events/1.json
   def show
-    @event = Event.find_by(id: params[:id])
+    # @event = Event.find_by(id: params[:id])
   end
 
   # GET /events/new
@@ -18,6 +21,11 @@ class EventsController < ApplicationController
 
   # GET /events/1/edit
   def edit
+    @user_same_as_creator = @event.creator.id == current_user.id
+    if !@user_same_as_creator
+      flash[:notice] = "Denied, you are not the event creator!"
+      redirect_to root_path
+    end
   end
 
   # POST /events or /events.json
@@ -46,6 +54,13 @@ class EventsController < ApplicationController
 
   # DELETE /events/1 or /events/1.json
   def destroy
+    @user_same_as_creator = @event.creator.id == current_user.id
+    if !@user_same_as_creator
+      flash[:notice] = "Denied, you are not the event creator!"
+      redirect_to root_path
+      return
+    end
+
     @event.destroy!
 
     respond_to do |format|
@@ -58,6 +73,15 @@ class EventsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_event
       @event = Event.find(params[:id])
+    end
+
+    def set_user_attended
+      @user_joined_events = Set[]
+      if user_signed_in?
+        @user_joined_events = current_user
+        .attended_events.map { |e| e.id }
+        .to_set
+      end
     end
 
     # Only allow a list of trusted parameters through.

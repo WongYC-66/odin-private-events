@@ -1,7 +1,23 @@
 <h3>Events created-by : <%=@user.username %> </h3>
 
-<% @events.each do |event| %>
-    <p><%= event.title %></p>
+<% @user.created_events.each do |event| %>
+    <p><%= link_to event.title, event %> </p>
     <p><%= event.description %></p>
     <p><%= event.date %></p>
+    <br>
+<% end %>
+
+<br>
+<h3>Events Attended : </h3>
+<% @user.attended_events.where(date: ..Time.now.midnight-1.day).each do |event| %>
+    <%= render partial: "/events/event", locals: {event: event, canAttend: false} %>
+    <p><%= event.date %></p>
+    <br>
+<% end %>
+
+<h3>Events Attending : </h3>
+<% @user.attended_events.where(date: Time.now ..).each do |event| %>
+    <%= render partial: "/events/event", locals: {event: event, canAttend: true} %>
+    <p><%= event.date %></p>
+    <br>
 <% end %>
