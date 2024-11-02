@@ -6,7 +6,11 @@
 
 <div id="events">
   <% @events.each do |event| %>
-    <%= render event %>
+    <%#= render event %>
+
+    <p><%= event.title %></p>
+    <p><%= event.description %></p>
+
     <p>
       <%= link_to "Show this event", event %>
     </p>

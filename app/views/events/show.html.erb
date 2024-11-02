@@ -3,8 +3,28 @@
 <%= render @event %>
 
 <div>
-  <%= link_to "Edit this event", edit_event_path(@event) %> |
+  <%= link_to "Edit this event", edit_event_path(@event) %> | 
   <%= link_to "Back to events", events_path %>
+
+  <div>
+    <%= @event.id %>
+  </div>
+
+  <div>
+    <%= @event.title %>
+  </div>
+
+  <div>
+    <%= @event.description %>
+  </div>
+
+  <div>
+    Created by : <%= @event.creator.username %>
+  </div>
+
+  <div>
+    <%= @event.date %>
+  </div>
 
   <%= button_to "Destroy this event", @event, method: :delete %>
 </div>
